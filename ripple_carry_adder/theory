@@ -1,0 +1,76 @@
+## Ripple Carry Adder (RCA) – Basic Theory
+
+--> What is a Ripple Carry Adder?
+
+ Ripple Carry Adder (RCA)---"combinational digital circuit" used to add two multi-bit binary numbers. 
+                           It is built by "cascading multiple full adders", where the "carry output of one stage becomes the carry input of the next stage".
+
+The carry signal “ripples” from the **least significant bit (LSB)** to the **most significant bit (MSB)**, which is why it is called a *ripple* carry adder.
+
+---
+
+###  Basic Structure
+
+* Consists of **N full adders** for adding **N-bit numbers**
+* Inputs:
+
+  * Two N-bit binary numbers: **A = Aₙ₋₁…A₀**, **B = Bₙ₋₁…B₀**
+  * Initial carry input: **C₀ (usually 0)**
+* Outputs:
+
+  * Sum bits: **Sₙ₋₁…S₀**
+  * Final carry output: **Cₙ**
+
+Each full adder performs:
+
+* **Sum:** `S = A ⊕ B ⊕ Cin`
+* **Carry:** `Cout = AB + BCin + ACin`
+
+---
+
+###  Working Principle
+
+1. The **LSB full adder** adds A₀, B₀, and C₀.
+2. It produces **S₀** and carry **C₁**.
+3. **C₁** is passed to the next full adder.
+4. This process continues until the MSB.
+5. The final carry **Cₙ** indicates overflow.
+
+---
+
+### ⏱️ Delay Characteristics
+
+* The **main drawback** of RCA is **propagation delay**
+* Total delay ∝ **number of bits (N)**
+* Worst-case delay occurs when carry must propagate through **all full adders**
+
+[
+T_{delay} = N \times T_{carry}
+]
+
+---
+
+### Advantages
+
+* Simple design
+* Easy to implement
+* Requires **less hardware**
+* Suitable for **small-bit adders**
+
+---
+
+###  Disadvantages
+
+* Slow for large bit-widths
+* Carry propagation causes **high latency**
+* Not suitable for high-speed processors
+
+---
+
+### Applications
+
+* Small arithmetic units
+* Low-power and low-area designs
+* Educational and basic digital systems
+* Used where **speed is not critical**
+
