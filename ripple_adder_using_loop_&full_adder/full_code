@@ -1,0 +1,55 @@
+//-------------------------------Dessign_code-----------------
+module full_adder(input a,b,c, output sum,carry);
+
+assign sum=a^b^c;
+assign carry=a&b | b&c | c&a ;
+
+endmodule
+
+module ripple_adder #(parameter SIZE=4)( input [SIZE-1 :0]A,B,
+                                       input C,
+                                       output [SIZE-1:0]s_out,c_out);
+
+genvar g;
+
+  full_adder fa(A[0],B[0],C[0],s_out[0],c_out[0]);
+  generate 
+    for(g=1;g<SIZE;g++) begin
+    full_adder fa(A[g],B[g],c_out[g-1],s_out[g],c_out[g]);
+    end
+  endgenerate 
+endmodule 
+
+//----------------------------test_bench--------------------------------------
+module tb;
+
+  reg [3:0] A,B;
+reg C;
+  wire [3:0]s_out,c_out;
+
+  ripple_adder ra(A,B,C,s_out,c_out);
+
+initial begin
+
+
+  $monitor("a=%b,b=%b,c=%b,s_out=%b,carry=%b",A,B,C,s_out,c_out);
+
+A = 1;
+B = 2;
+C=0;
+#10
+A = 4;
+B = 5;
+C=1;
+#10
+A = 9;
+B = 14;
+C=0;
+#10
+A = 16;
+B = 20;
+C=1;
+#10
+$finish();
+end
+endmodule
