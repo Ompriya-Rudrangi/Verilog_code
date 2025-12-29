@@ -1,0 +1,66 @@
+//--------------------------------------------------Design code-------------------------------------------------------------
+module full_adder(input a,b,c , output sum,carry);
+
+assign sum=a^b^c;
+assign carry= (a&b)|(b&c)|(c&a);
+
+endmodule
+
+module adder_sub #(parameter size=4) (input [size-1:0] A,B,
+                                      input [1:0] ctrl,
+                                     output [size-1:0] s_out,c_out);
+  bit [size-1:0]B1;
+
+genvar g;
+  assign B1[0]=B[0]^ctrl;
+  full_adder fa(A[0],B1[0],ctrl[0],s_out[0],c_out[0]);
+  
+generate 
+  for (g=1;g<size;g++) begin 
+    assign B1[g]=B[g]^ctrl;
+    full_adder  fa(A[g],B1[g],c_out[g-1],s_out[g],c_out[g]);
+  end 
+endgenerate
+endmodule 
+
+//---------------------------------------------------------Test_bench----------------------------------------------------------------------
+module tb;
+
+  reg [3:0] A,B;
+  reg ctrl;
+  wire [3:0]s_out,c_out;
+
+  adder_sub  as(A,B,ctrl,s_out,c_out);
+
+initial begin
+
+
+  $monitor("Ctrl=%b:A=%b,B=%b,--> s_out=%b,c_out[3]=%b",ctrl,A,B,s_out,c_out[3]);
+
+ctrl=0;
+A = 1;
+B = 0;
+#10
+A = 4;
+B = 5;
+#10
+A = 4'hb;
+B = 6;
+#10
+A = 16;
+B = 20;
+#10
+
+ctrl=1;
+A=4;B=4;
+#10 
+A=6;B=3;
+#10;
+A=9;B=2;
+#10
+A=4;B=5;
+#10
+
+$finish();
+end
+endmodule
