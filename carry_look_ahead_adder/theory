@@ -1,0 +1,24 @@
+Carry-lookahead adders (CLA) accelerate addition by computing carries in parallel using propagate and generate signals, avoiding the ripple delay of simple adders. 
+A CLA reduces carry computation depth from linear to logarithmic with hierarchical grouping, delivering significantly faster addition for wide word sizes.
+
+--> Overview
+A CLA accelerates binary addition by computing carries in parallel via propagate (P) and generate (G) signals, reducing carry depth from linear (ripple) to logarithmic with hierarchical grouping.
+
+### Equations
+- P_i = A_i ⊕ B_i
+- G_i = A_i · B_i
+- S_i = P_i ⊕ C_i
+- C_{i+1} = G_i ∨ (P_i · C_i)
+
+4-bit carries:
+C1 = G0 ∨ (P0·C0)
+C2 = G1 ∨ (P1·G0) ∨ (P1·P0·C0)
+C3 = G2 ∨ (P2·G1) ∨ (P2·P1·G0) ∨ (P2·P1·P0·C0)
+C4 = G3 ∨ (P3·G2) ∨ (P3·P2·G1) ∨ (P3·P2·P1·G0) ∨ (P3·P2·P1·P0·C0)
+
+Group:
+P_grp = P3·P2·P1·P0
+G_grp = G3 ∨ (P3·G2) ∨ (P3·P2·G1) ∨ (P3·P2·P1·G0)
+C4 = G_grp ∨ (P_grp·C0)
+
+
