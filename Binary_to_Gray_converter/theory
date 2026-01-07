@@ -1,0 +1,4 @@
+G3=B3
+G2=B3 xor B2
+G1=B1 XOR B2
+G0=B0 XOR B1
