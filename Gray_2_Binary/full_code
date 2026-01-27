@@ -1,0 +1,20 @@
+//-------------------------------------Design_code--------------------------------------
+
+module gray #(parameter size=4)(input [size-1:0]g, output [size-1:0] b);
+genvar i;
+generate 
+ for (i=0;i<size-1;i++)
+   assign b[i]=b[i+1]^g[i];
+endgenerate 
+  assign b[size-1]=g[size-1];
+endmodule 
+
+//----------------------------------------test_bench_code---------------------------------------
+module tb;
+  reg [3:0] g,b;
+  gray g2b (g,b);
+initial begin
+  $monitor ("g=%b---> b=%b",g,b );
+ g=4'b1110; #1;
+end
+endmodule
