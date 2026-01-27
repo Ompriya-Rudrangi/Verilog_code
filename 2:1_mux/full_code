@@ -1,0 +1,23 @@
+//-------------------------------------Design_code--------------------------------------------------
+module mux (input a,b,s, output y);
+assign y=s?a:b;
+
+                  //or 
+                  
+//assign y= a&&s || b&&s;
+endmodule
+
+//----------------------------------------test_bench------------------------------------------------------
+module tb;
+  reg a,b,s;
+  wire y;
+  mux   m(a,b,s,y);
+initial begin 
+  $monitor ("a=%b,b=%b,s=%b--->y=%b",a,b,s,y);
+  a=1; b=0; s=0;
+#1;
+s=1;
+end
+endmodule 
+
+
