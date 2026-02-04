@@ -1,0 +1,29 @@
+//---------------------------------------------------------------------design-----------------------------------------------------------------------
+module demux_1_2 (input sel,i,output y0,y1);
+  assign {y0,y1} = sel?{i,1'b0}:{1'b0,i};
+
+endmodule
+
+module demux_1_4 (input sel0,sel1,i,output y0,y1,y2,y3);
+wire z0,z1;
+
+  demux_1_2 dm0(sel1,i,z0,z1);
+  demux_1_2 dm1(sel0,z0,y0,y1);
+  demux_1_2 dm2(sel0,z1,y2,y3);
+
+endmodule 
+//----------------------------------------------------------test_bench----------------------------------------------------------------------------
+module tb;
+  reg sel1,sel0;
+  reg i;
+wire y0,y1,y2,y3;
+  demux_1_4  demux(sel1,sel0,i,y0,y1,y2,y3);
+initial begin
+  $monitor ("sel1=%b ,sel0=%b ,i=%b --->y0=%b ,y1=%b ,y2=%b ,y3=%b ",sel1,sel0,i,y0,y1,y2,y3);
+i=1;
+  repeat (10) begin
+    {sel0,sel1}=$random;
+#5;
+  end
+end
+endmodule
