@@ -1,0 +1,27 @@
+//-----------------------------------------------------------design--------------------------------------------------------------------
+module demux_1_4(input [1:0] sel,input i,output reg y0,y1,y2,y3);
+always @(*) begin
+    case (sel)
+      2'h0:{y0,y1,y2,y3}={i,3'b0};
+      2'h1:{y0,y1,y2,y3}={1'b0,i,2'b0};
+      2'h2:{y0,y1,y2,y3}={2'b0,i,1'b0};
+      2'h3:{y0,y1,y2,y3}={3'b0,i};
+    endcase
+end
+endmodule 
+
+//-----------------------------------------------------------test_bench--------------------------------------------------------------------
+module tb;
+  reg [1:0]sel;
+  reg i;
+  reg y0,y1,y2,y3;
+  demux_1_4 m(sel,i,y0,y1,y2,y3);
+initial begin
+  $monitor ("sel=%b,i=%b-->y0=%b,y1=%b,y2=%b,y3=%b",sel,i,y0,y1,y2,y3);
+i=1
+repeat (6) begin
+sel=$random;
+#8;
+end
+end
+endmodule
