@@ -1,0 +1,25 @@
+//--------------------------------------------------------------design-------------------------------------------------------------------------
+module mux_2_1(input sel,i0,i1,output y);
+assign y=sel?i0:i1;
+endmodule
+
+module mux_3_1 (input sel0,sel1,i0,i1,i2,output y);
+wire y0;
+  mux_2_1 m0(sel0,i0,i1,y0);
+  mux_2_1 m1(sel1,i2,y0,y);
+endmodule
+//------------------------------------------------------------test_bench----------------------------------------------------------------------------
+module tb;
+reg sel0,sel1;
+reg i0,i1,i2;
+wire y;
+  mux_3_1 mux(sel0,sel1,i0,i1,i2,y);
+initial begin
+  $monitor ("sel0=%b,sel1=%0b,i0=%b,i1=%b,i2=%b-->y=%b",sel0,sel1,i0,i1,i2,y);
+  {i2,i1,i0}=4'h5;
+  repeat (4) begin
+    {sel0,sel1}=$random;
+#5;
+  end
+end
+endmodule
