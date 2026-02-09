@@ -1,0 +1,33 @@
+//-----------------------------------------------------------Design--------------------------------------------------------------------------
+module jk_ff(input rest_n,clk,j,k,output reg q);
+  always @(posedge clk) begin
+    if (!rest_n) q <= 0;
+else 
+  case({j,k})
+2'b00 : q <= q;
+2'b01 : q <= 1'b0;
+2'b10 : q <= 1'b1;
+2'b11 : q <= ~q ;
+  endcase
+  end
+endmodule 
+
+//---------------------------------------------------------test_bench-------------------------------------------------------------------------
+module tb;
+reg rest_n , clk ;
+reg j,k;
+wire q;
+  jk_ff ff(rest_n,clk,j,k,q);
+initial clk =0;
+always #1 clk= ~ clk;
+initial begin
+  $monitor("time=%0t , rest_n=%b, j=%b, k=%b--> q=%b",$time,rest_n,j,k,q);
+    rest_n=0 ; j=0;k=0; #1;
+rest_n=1; j=0;k=0; #2;
+    @(posedge clk)j=0;k=0;
+    @(posedge clk)j=0;k=1;
+    @(posedge clk)j=1;k=0;
+    @(posedge clk)j=1;k=1;
+#4 $finish ;
+end
+endmodule
