@@ -1,0 +1,35 @@
+//--------------------------------------------------------------------design---------------------------------------------------------------------
+module d_ff (input rest_n,clk,input D,output reg q);
+  always @(posedge clk) begin //synchoronus 
+ 
+    //always @(posedge clk or negedge rest_n ) begin //asynchoronus
+  if (!rest_n) q <= 0;
+  else 
+     q <= D ;
+  end
+endmodule 
+    
+//-------------------------------------------------------------------test_bench--------------------------------------------------------------
+`timescale 1ns/1ns
+module tb;
+reg rest_n,clk; 
+reg D;
+wire q;
+
+  d_ff ff(rest_n,clk,D,q);
+initial clk=0;
+always #5 clk= ~clk;
+
+initial begin 
+  $monitor ("time=%0t, rest_n=%b , D=%b --> q=%b",$time,rest_n,D,q);
+#5;
+end
+always begin
+  @(posedge clk ) ;rest_n=0; D=0;
+  @(posedge clk); rest_n=1; D=1;
+  @(posedge clk);       D=1; 
+  @(posedge clk );D=0;
+#5 $finish ;
+end
+endmodule 
+    
