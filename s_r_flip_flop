@@ -1,0 +1,36 @@
+//---------------------------------------------------------------Design-----------------------------------------------------------------------
+module sr_ff(input rest_n,clk, input reg  s,r , output reg q);
+  always @(posedge clk ) begin
+      if (!rest_n) q<=0;
+    else 
+      case ({s,r})
+      2'b00 :q <= q;
+      2'b01 :q <= 1'b0;
+      2'b10 :q <=1'b1;
+      2'b11 :q <=1'bx;
+        //default:$display("Invaild_code");
+  endcase
+  end
+endmodule 
+
+//---------------------------------------------------------------test_bench-------------------------------------------------------------------
+`timescale 1ns/1ns
+module tb;
+  reg rest_n,clk;
+  reg  s,r;
+  wire q;
+  sr_ff  ff(rest_n,clk,s,r,q);
+initial clk=0;
+  always #1clk =~clk;
+initial begin
+  $monitor("time=%0t ,rest_n=%b  , s=%b , r=%b --> q=%b",$time ,rest_n,s,r,q);
+#1;
+  
+rest_n=0;s=0;r=0; #1;
+rest_n=1;s=0; r=1; #1;
+s=1; r=0; #1;
+s=0; r=0; #1;
+s=1; r=1; #1;
+$finish;
+end 
+endmodule
