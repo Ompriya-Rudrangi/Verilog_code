@@ -1,0 +1,32 @@
+//---------------------------------------------------------------design--------------------------------------------------------------------
+module t_flip_flop(input rest_n,clk,input T, output reg q);
+
+  always @(posedge clk) begin
+    if (!rest_n) q <=0;
+    else
+      q <= ~T;
+  end
+endmodule
+//-------------------------------------------------------------Test_bench--------------------------------------------
+
+module tb;
+reg rest_n,clk;
+reg T;
+wire q;
+  t_flip_flop tff (rest_n,clk,T,q);
+initial clk=0;
+always #1 clk = ~clk;
+initial begin 
+  $monitor ("time=%0t, rest_n=%b , T=%b --> q=%b",$time,rest_n,T,q);
+#2;
+rest_n=0 ; T=0;#1;
+rest_n=1 ; T=0 ; #1;
+  @(posedge clk ); T=1;
+  @(posedge clk);  T=0;
+  @(posedge clk);  T=1; 
+  @(posedge clk );T=0;
+  @(posedge clk );T=1;
+  @(posedge clk );T=0;
+#1  $finish ;
+end
+endmodule 
