@@ -1,0 +1,28 @@
+#  What is a Universal Shift Register?
+                        A Universal Shift Register is a register that can perform:
+1. No operation (Hold)
+2. Shift Right
+3. Shift Left
+4. Parallel Load
+
+That’s why it is called *“Universal”* — it supports all major register operations.
+-------------------------------------------------------------------------------------------------------------------------------------------
+#  Basic Operations
+
+For a 4-bit USR:
+
+| Mode | Operation        |
+| ---- | ---------------- |
+| 00   | Hold (No change) |
+| 01   | Shift Right      |
+| 10   | Shift Left       |
+| 11   | Parallel Load    |
+
+------------------------------------------------------------------
+# Why USR is Important?
+
+* Serial communication
+* Data conversion (Serial ↔ Parallel)
+* Temporary storage
+* Data manipulation
+* Microprocessor systems
