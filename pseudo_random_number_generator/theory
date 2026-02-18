@@ -1,0 +1,65 @@
+--> Linear Feedback Shift Register (LFSR) 
+
+## Introduction
+A "Linear Feedback Shift Register (LFSR)" is a sequential circuit that generates a sequence of bits using shift registers and feedback logic. 
+The feedback is a linear function of the register’s previous state, most commonly implemented using the XOR operation. 
+LFSRs are widely used in digital systems for pseudo-random number generation, cryptography,error detection (CRC), and spread-spectrum communication.
+
+---
+
+## Working Principle:
+- An LFSR consists of:
+  - A shift register of length "n".
+  - A set of "tap positions" (selected bits of the register).
+  - A feedback function (usually XOR of tap bits).
+- At each clock cycle:
+  1. The register shifts its contents.
+  2. The feedback bit is computed from the tap positions.
+  3. The feedback bit is inserted into the least significant bit (LSB).
+
+-----------------------------------------------------------------------------------------------------------------------------------------------
+
+## Example: 4-bit LFSR
+Consider a 4-bit LFSR with taps at positions 3 and 2:
+- Feedback = q[3] ^ q[2]
+- output q= q<<1;
+- Update rule:  
+- Starting from seed `1111`, the sequence evolves as:
+  ```
+  1111 → 1110 → 1101 → 1011 → 0111 → 1110 → ...
+  ```
+- This sequence cycles through 15 unique states before repeating (all states except `0000`).
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------
+
+## Properties
+- "Periodicity": An *n*-bit LFSR can generate up to (2^n - 1\) states before repeating, if taps are chosen correctly (maximal-length sequence).
+- "Deterministic but pseudo-random": The sequence looks random but is fully determined by the initial seed and tap positions.
+- Applications:
+  - Pseudo-random number generation.
+  - Scrambling/whitening sequences in communication systems.
+  - Built-in self-test (BIST) in VLSI.
+  - Error detection codes (CRC).
+
+--------------------------------------------------------------------------------------------------------------------------------------------------
+
+## Advantages
+- Simple hardware implementation (just shift registers + XOR gates).
+- High speed and low resource usage.
+- Long pseudo-random sequences with proper tap selection.
+
+---
+
+## Limitations
+- Not truly random (deterministic).
+- Sequence length depends on tap positions.
+- Cannot generate the all-zero state (once entered, it stays stuck).
+
+---
+
+## Conclusion
+LFSRs are elegant and efficient circuits for generating pseudo-random sequences. 
+By carefully selecting tap positions, they can achieve maximal-length sequences, making them invaluable in digital design, cryptography, and communication systems.
+
+
+
