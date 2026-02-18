@@ -3,8 +3,8 @@ module t_flip_flop(input rest_n,clk,input T, output reg q);
 
   always @(posedge clk) begin
     if (!rest_n) q <=0;
-    else
-      q <= ~T;
+    else (T)
+      q <= ~q;
   end
 endmodule
 //-------------------------------------------------------------Test_bench--------------------------------------------
